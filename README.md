@@ -1,28 +1,25 @@
 # NluTools
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/nlu_tools`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Useful NLU Tools to import training data into AWS Lex, Google Dialogflow and run tests
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'nlu_tools'
+To install:
+```bash
+$ gem install nlu_tools
 ```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install nlu_tools
 
 ## Usage
 
-TODO: Write usage instructions here
+```bash
+$ nlu_toolset help
+$ nlu_toolset import help
+$ nlu_toolset import help dialogflow
+$ nlu_toolset import help lex
+$ nlu_toolset test help
+$ nlu_toolset test help lex
+$ nlu_toolset test help dialogflow
+```
 
 ## Development
 
