@@ -47,8 +47,7 @@ $ nlu_toolset test dialogflow -f ./data/simple_test.json -p google-project-id -o
 ```
 
 ### creating training & test data
-The training and testing data is a truncated version of the data obtained from [Watson Assistant Sample Application repo](https://github.com/watson-developer-cloud/assistant-simple/) / [bank_simple_workspace.json](https://github.com/watson-developer-cloud/assistant-simple/blob/master/training/bank_simple_workspace.json).
-Generated using [jq](https://stedolan.github.io/jq/).
+The sample training and testing json files in [data](data) directory has two intents taken for simplicity from [Watson Assistant Sample Application repo](https://github.com/watson-developer-cloud/assistant-simple/) / [bank_simple_workspace.json](https://github.com/watson-developer-cloud/assistant-simple/blob/master/training/bank_simple_workspace.json). It is generated using [jq](https://stedolan.github.io/jq/). Please feel free to fetch the file and run the below commands to generate the full training & test set.
 
 #### get all intents and its examples except the last 2 for training:
 ```bash
