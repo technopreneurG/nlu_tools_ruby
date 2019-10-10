@@ -1,0 +1,36 @@
+[
+  {
+    "intent": "Banking-General_Rate_Query",
+    "train": [
+      "who can i contact to talk about credit card rates",
+      "credit card rates at the moment",
+      "credit cards interest rate information",
+      "What are the interest rates on your credit cards",
+      "how about your credit card interest rates",
+      "annual percentage rate credit cards",
+      "are your card interest rates high",
+      "current interest rate for credit cards",
+      "credit cards rate of interest",
+      "What are your credit card interest rates",
+      "What are your credit card APR rates",
+      "What is the interest rate on your credit cards",
+      "tell me the annual percentage rate on your credit card",
+      "What credit card interest rate do you charge",
+      "are your APR rates low for your credit card",
+      "What is the APR on your credit cards",
+      "credit card interest rate information",
+      "would like to know about credit card rates"
+    ]
+  },
+  {
+    "intent": "Loyalty_Program-Loyalty_Status",
+    "train": [
+      "Can I use loyalty points",
+      "Can you tell me where Im at with the rewards points",
+      "status of loyalty program",
+      "Is this account still in the loyalty scheme",
+      "Where am I at with the loyalty program",
+      "Do I still have access to loyalty rewards"
+    ]
+  }
+]
