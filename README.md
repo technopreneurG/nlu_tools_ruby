@@ -11,6 +11,7 @@ $ gem install nlu_tools
 
 ## Usage
 
+### get help
 ```bash
 $ nlu_toolset help
 $ nlu_toolset import help
@@ -19,6 +20,44 @@ $ nlu_toolset import help lex
 $ nlu_toolset test help
 $ nlu_toolset test help lex
 $ nlu_toolset test help dialogflow
+```
+
+
+### setup keys
+```bash
+$ export AWS_REGION='AWS_REGION'
+$ export AWS_ACCESS_KEY_ID='AWS_ACCESS_KEY_ID'
+$ export AWS_SECRET_ACCESS_KEY='AWS_SECRET_ACCESS_KEY'
+$ export GOOGLE_APPLICATION_CREDENTIALS='/path/to/google-project-key.json'
+
+```
+
+### importing training data
+```bash
+$ nlu_toolset import lex -f ./data/simple_train.json --botname testbot
+
+$ nlu_toolset import dialogflow -f ./data/simple_train.json -p google-project-id
+```
+
+### running tests
+```bash
+$ nlu_toolset test lex -f ./data/simple_test.json --botname testbot -o output_l.csv -t summary
+
+$ nlu_toolset test dialogflow -f ./data/simple_test.json -p google-project-id -o output_d.csv
+```
+
+### creating training & test data
+The training and testing data is a truncated version of the data obtained from [Watson Assistant Sample Application repo](https://github.com/watson-developer-cloud/assistant-simple/) / [bank_simple_workspace.json](https://github.com/watson-developer-cloud/assistant-simple/blob/master/training/bank_simple_workspace.json).
+Generated using [jq](https://stedolan.github.io/jq/).
+
+#### get all intents and its examples except the last 2 for training:
+```bash
+$ jq '[.intents[] | {"intent":.intent, "train":[.examples[].text] | .[:-2]}]' data/bank_simple_workspace.json > ./data/simple_train.json
+```
+
+#### get the last 2 intents and its examples for testing:
+```bash
+$ jq '[.intents[] | {"intent":.intent, "test":[.examples[].text] | .[-2:]}]' data/bank_simple_workspace.json > ./data/simple_test.json
 ```
 
 ## Development
