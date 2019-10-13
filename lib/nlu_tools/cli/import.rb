@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'pathname'
+require 'json_schemer'
 
 module NluTools
   # The subcommand import
@@ -29,12 +31,19 @@ module NluTools
         exit(1)
       end
       intents = JSON.parse(File.read(options[:file]))
-      d = NluAdapter.new(:Dialogflow,
-                         project_id: options[:project_id],
-                         session_id: 'SESSION1')
-      intents.each do |intent|
-        i = d.new_intent(intent['intent'], intent['train'])
-        d.create_intent(i)
+      schema = Pathname.new('schema/nlu_training_data.json')
+      schemer = JSONSchemer.schema(schema)
+      if schemer.valid?(intents)
+        d = NluAdapter.new(:Dialogflow,
+                           project_id: options[:project_id],
+                           session_id: 'SESSION1')
+        intents['training_data'].each do |intent|
+          i = d.new_intent(intent['intent'], intent['utterences'])
+          d.create_intent(i)
+        end
+      else
+        puts "Training data is not in valid format\nPlease check data/simple_train.json for reference"
+        exit(1)
       end
     end
 
@@ -65,21 +74,26 @@ module NluTools
       end
 
       intents = JSON.parse(File.read(options[:file]))
-      puts intents.size
-      l = NluAdapter.new(:Lex,
-                         bot_name: options[:botname],
-                         bot_alias: 'BotAlias',
-                         user_id: 'user-1')
-      lex_intents = []
-      intents.each do |intent|
-        intent_name = intent['intent'].gsub('-', '_')
-        puts '---'
-        i = l.new_intent(intent_name, intent['train'])
-        lex_intents << i
-      end
+      schema = Pathname.new('schema/nlu_training_data.json')
+      schemer = JSONSchemer.schema(schema)
+      if schemer.valid?(intents)
+        l = NluAdapter.new(:Lex,
+                           bot_name: options[:botname],
+                           bot_alias: 'BotAlias',
+                           user_id: 'user-1')
+        lex_intents = []
+        intents['training_data'].each do |intent|
+          intent_name = intent['intent'].gsub('-', '_')
+          i = l.new_intent(intent_name, intent['utterences'])
+          lex_intents << i
+        end
 
-      ic = l.new_intent_collection(options[:botname], lex_intents)
-      l.create_intent_collection(ic)
+        ic = l.new_intent_collection(options[:botname], lex_intents)
+        l.create_intent_collection(ic)
+      else
+        puts "Training data is not in valid format\nPlease check data/simple_train.json for reference"
+        exit(1)
+      end
     end
   end
 end

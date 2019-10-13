@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/technopreneurG/nlu_tools_ruby/schema/nlu_training_data.json",
+  "title": "NluTrainingData",
+  "description": "NLU training data schema",
+  "type": "object",
+  "properties": {
+    "training_data": {
+      "type": "array",
+      "description": "array on intents which need to be imported into the NLU system",
+      "items": {
+        "type": "object",
+        "properties": {
+          "intent" : {
+            "description": "intent associated with the utterences",
+            "type": "string"
+          },
+          "utterences": {
+            "description": "the training sentences",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": ["intent", "utterences"]
+      }
+    }
+  },
+  "required": ["training_data"]
+}

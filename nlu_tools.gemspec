@@ -43,4 +43,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop', '~> 0.75.0'
 
   spec.add_dependency('nlu_adapter', '~> 0.1.6')
+  spec.add_dependency('json_schemer', '~> 0.2.7')
 end
