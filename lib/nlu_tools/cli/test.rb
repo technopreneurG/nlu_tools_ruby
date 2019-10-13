@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'pathname'
+require 'json_schemer'
 
 module NluTools
   # The subcommand for test
@@ -42,15 +44,22 @@ module NluTools
       end
 
       intents = JSON.parse(File.read(options[:file]))
-      na = NluAdapter.new(:Dialogflow,
-                          project_id: options[:project_id],
-                          session_id: 'SESSION1')
-      new_intents = {}
-      intents.each do |intent|
-        new_intents[intent['intent']] = intent['test']
-      end
+      schema = Pathname.new('schema/nlu_testing_data.json')
+      schemer = JSONSchemer.schema(schema)
+      if schemer.valid?(intents)
+        na = NluAdapter.new(:Dialogflow,
+                            project_id: options[:project_id],
+                            session_id: 'SESSION1')
+        new_intents = {}
+        intents['testing_data'].each do |intent|
+          new_intents[intent['intent']] = intent['utterences']
+        end
 
-      run_tests(na, new_intents, options[:output_file], options[:output_type])
+        run_tests(na, new_intents, options[:output_file], options[:output_type])
+      else
+        puts "Testing data is not in valid format\nPlease check data/simple_test.json for reference"
+        exit(1)
+      end
     end
 
     desc 'lex', 'test the data in <file> using AWS Lex'
@@ -95,23 +104,30 @@ module NluTools
       end
 
       intents = JSON.parse(File.read(options[:file]))
-      na = NluAdapter.new(:Lex,
-                          bot_name: options[:botname],
-                          bot_alias: 'BotAlias',
-                          user_id: 'user-1')
-      new_intents = {}
-      intents.each do |intent|
-        intent_name = intent['intent'].gsub('-', '_')
-        new_intents[intent_name] = intent['test']
-      end
+      schema = Pathname.new('schema/nlu_testing_data.json')
+      schemer = JSONSchemer.schema(schema)
+      if schemer.valid?(intents)
+        na = NluAdapter.new(:Lex,
+                            bot_name: options[:botname],
+                            bot_alias: 'BotAlias',
+                            user_id: 'user-1')
+        new_intents = {}
+        intents['testing_data'].each do |intent|
+          intent_name = intent['intent'].gsub('-', '_')
+          new_intents[intent_name] = intent['utterences']
+        end
 
-      run_tests(na, new_intents, options[:output_file], options[:output_type])
+        run_tests(na, new_intents, options[:output_file], options[:output_type])
+      else
+        puts "Testing data is not in valid format\nPlease check data/simple_test.json for reference"
+        exit(1)
+      end
     end
 
     private
 
     def run_tests(nlu_adapter, intents, output_file, output_type)
-      ext = output_file.nil? || output_file.empty? ? :none : output_file.split('.')[-1].intern
+      ext = output_file.nil? || output_file.empty? || output_file == :STDOUT ? :none : output_file.split('.')[-1].intern
       type = output_type.nil? || output_type.empty? ? :raw : output_type.intern
 
       case type

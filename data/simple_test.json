@@ -1,16 +1,18 @@
-[
-  {
-    "intent": "Banking-General_Rate_Query",
-    "test": [
-      "APR for personal credit cards",
-      "interest rates for personal credit cards"
-    ]
-  },
-  {
-    "intent": "Loyalty_Program-Loyalty_Status",
-    "test": [
-      "Am I still part of the rewards program?",
-      "Am I still in the loyalty program?"
-    ]
-  }
-]
+{
+  "testing_data": [
+    {
+      "intent": "Banking-General_Rate_Query",
+      "utterences": [
+        "APR for personal credit cards",
+        "interest rates for personal credit cards"
+      ]
+    },
+    {
+      "intent": "Loyalty_Program-Loyalty_Status",
+      "utterences": [
+        "Am I still part of the rewards program?",
+        "Am I still in the loyalty program?"
+      ]
+    }
+  ]
+}
