@@ -51,12 +51,12 @@ The sample training and testing json files in [data](data) directory has two int
 
 #### get all intents and its examples except the last 2 for training:
 ```bash
-$ jq '[.intents[] | {"intent":.intent, "train":[.examples[].text] | .[:-2]}]' data/bank_simple_workspace.json > ./data/simple_train.json
+$ jq '{"training_data": [.intents[] | {"intent":.intent, "utterences":[.examples[].text] | .[:-2]}]}' data/bank_simple_workspace.json > ./data/simple_train.json
 ```
 
 #### get the last 2 intents and its examples for testing:
 ```bash
-$ jq '[.intents[] | {"intent":.intent, "test":[.examples[].text] | .[-2:]}]' data/bank_simple_workspace.json > ./data/simple_test.json
+$ jq '{"testing_data": [.intents[] | {"intent":.intent, "utterences":[.examples[].text] | .[-2:]}]}' data/bank_simple_workspace.json > ./data/simple_test.json
 ```
 
 ## Development
@@ -75,4 +75,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the NluTools project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/nlu_tools/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the NluTools project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/technopreneurG/nlu_tools/blob/master/CODE_OF_CONDUCT.md).
