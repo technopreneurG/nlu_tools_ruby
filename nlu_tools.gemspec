@@ -44,4 +44,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency('nlu_adapter', '~> 0.1.6')
   spec.add_dependency('json_schemer', '~> 0.2.7')
+  spec.add_dependency('thor', '~> 0.20.3')
 end
